@@ -35,7 +35,7 @@ module Spaceship
         return client.get_app_asset_library_image(app_asset_library_image_id: app_asset_library_image_id).first
       end
 
-      def self.create(client: nil, app_asset_library_id:, path:, category: 'CREATIVE_ASSETS', reference_name: nil, wait_for_processing: true, processing_timeout: 300, poll_interval: 2)
+      def self.create(client: nil, app_asset_library_id:, path:, category: 'CREATIVE_ASSETS', reference_name: nil, wait_for_processing: true, processing_timeout: 900, poll_interval: 2)
         client ||= Spaceship::ConnectAPI
         raise ArgumentError, 'processing_timeout and poll_interval must be positive' unless processing_timeout > 0 && poll_interval > 0
 

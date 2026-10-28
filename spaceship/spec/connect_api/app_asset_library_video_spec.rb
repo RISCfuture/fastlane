@@ -33,7 +33,7 @@ describe 'App Asset Library videos' do
   it 'keeps waiting while a requested preview frame is absent' do
     without_frame = video_class.new('video', { state: 'PREPARE_FOR_SUBMISSION' })
     allow(client).to receive(:patch_app_asset_library_video).and_return([without_frame])
-    allow(Process).to receive(:clock_gettime).with(Process::CLOCK_MONOTONIC).and_return(0, 601)
+    allow(Process).to receive(:clock_gettime).with(Process::CLOCK_MONOTONIC).and_return(0, 1801)
     expect { video_class.create(client: client, app_asset_library_id: 'library', path: path, preview_frame_time_code: '00:00:03:00') }.to raise_error(/Timed out.*video/)
   end
 
@@ -63,12 +63,12 @@ describe 'App Asset Library videos' do
   end
 
   it 'bounds processing wait and includes the video id for recovery' do
-    allow(Process).to receive(:clock_gettime).with(Process::CLOCK_MONOTONIC).and_return(0, 601)
+    allow(Process).to receive(:clock_gettime).with(Process::CLOCK_MONOTONIC).and_return(0, 1801)
     expect { video_class.create(client: client, app_asset_library_id: 'library', path: path) }.to raise_error(/Timed out.*video/)
   end
 
   it 'caps the final sleep to the remaining timeout' do
-    allow(Process).to receive(:clock_gettime).with(Process::CLOCK_MONOTONIC).and_return(0, 599, 600)
+    allow(Process).to receive(:clock_gettime).with(Process::CLOCK_MONOTONIC).and_return(0, 1799, 1800)
     expect(video_class).to receive(:sleep).with(1)
     allow(client).to receive(:get_app_asset_library_video).and_return([processing])
     expect { video_class.create(client: client, app_asset_library_id: 'library', path: path) }.to raise_error(/Timed out.*video/)

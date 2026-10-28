@@ -75,7 +75,7 @@ describe 'App Asset Library' do
     end
 
     it 'bounds processing wait and preserves the image id in the timeout' do
-      allow(Process).to receive(:clock_gettime).with(Process::CLOCK_MONOTONIC).and_return(0, 301)
+      allow(Process).to receive(:clock_gettime).with(Process::CLOCK_MONOTONIC).and_return(0, 901)
       expect { image_class.create(client: client, app_asset_library_id: 'library', path: path) }.to raise_error(/Timed out.*image/)
     end
 
